@@ -59,7 +59,7 @@ def view_customer(email=None):
     '''View customers'''
     if email:
         customer = Customer.get(email==email)
-        count = 1
+        count = 0
         for garment in customer.customer_details:
             time_stamp = garment.time_stamp.strftime('%A %B %d, %Y %I:%M%p')
             count += 1

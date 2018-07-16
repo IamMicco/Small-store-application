@@ -1,5 +1,5 @@
 from tkinter import *
-from app import Customer, Garment, initialize, menu_loop, add_customer
+import app
 
 class Front:
     def __init__(self):
@@ -10,9 +10,9 @@ class Front:
 
         label1 = Label(frame1, text = 'Email: ')
         self.email = StringVar()
-        enteremail = Entry(frame1, textvariable = self.email)
+        enter_email = Entry(frame1, textvariable = self.email)
         label1.grid(row = 1, column = 1)
-        enteremail.grid(row = 1, column = 2)
+        enter_email.grid(row = 1, column = 2)
 
         frame2 = Frame(window)
         frame2.pack()
@@ -26,6 +26,16 @@ class Front:
         enter_color.grid(row = 1, column = 2)
         add_btn.grid(row = 1, column = 3)
 
+        frame3 = Frame(window)
+        frame3.pack()
+
+        view_button = Button(frame3, text = 'View', command = self.display_customer_data)
+        view_button.grid(row = 1, column = 1)
+
+        self.text = Text(window)
+        self.text.pack()
+        self.text.insert(END, '')
+
 
 
         window.mainloop()
@@ -35,7 +45,9 @@ class Front:
         return customer_email
 
     def plus(self):
-        
         pass
+
+    def display_customer_data(self):
+        self.text.insert(END, f'{app.view_customer(self.add_customer())}')
             
 Front()

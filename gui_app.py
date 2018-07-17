@@ -5,6 +5,18 @@ class Front:
     def __init__(self):
         window = Tk()
         window.title('Garment')
+
+        menubar = Menu(window)
+        window.config(menu = menubar)
+
+        operationMenu = Menu(menubar, tearoff = 0)
+        menubar.add_cascade(label = "Menu", menu = operationMenu)
+        operationMenu.add_command(label = "Add", command = self.add_entry)
+        operationMenu.add_command(label = 'View', command = self.view_entry)
+        operationMenu.add_separator()
+        operationMenu.add_command(label = 'Delete', command = self.delete_entry)
+
+
         frame1 = Frame(window)
         frame1.pack()
 
@@ -49,5 +61,14 @@ class Front:
 
     def display_customer_data(self):
         self.text.insert(END, f'{app.view_customer(self.add_customer())}')
+
+    def add_entry(self):
+        pass
+
+    def view_entry(self):
+        pass
+
+    def delete_entry(self):
+        pass
             
 Front()

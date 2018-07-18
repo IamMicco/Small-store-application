@@ -1,74 +1,78 @@
 from tkinter import *
 import app
 
-class Front:
-    def __init__(self):
-        window = Tk()
-        window.title('Garment')
 
-        menubar = Menu(window)
-        window.config(menu = menubar)
+class MainWindow(Tk):
+    def __init__(self, *args, **kwargs):
+        Tk.__init__(self, *args, **kwargs)
+        self.title('Garment')
+        self.geometry("300x300")
+        
+        container = Frame(self)
+        container.pack(side = "top", fill = "both", expand = True)
+        container.grid_rowconfigure(0, weight = 1)
+        container.grid_columnconfigure(0, weight = 1)
 
-        operationMenu = Menu(menubar, tearoff = 0)
-        menubar.add_cascade(label = "Menu", menu = operationMenu)
-        operationMenu.add_command(label = "Add", command = self.add_entry)
-        operationMenu.add_command(label = 'View', command = self.view_entry)
-        operationMenu.add_separator()
-        operationMenu.add_command(label = 'Delete', command = self.delete_entry)
+        menubar = Menu(container)
+        file = Menu(menubar, tearoff = 0)
+        file.add_command(label = 'create user', command = lambda: popupmsg('Not supported yet'))
+        menubar.add_cascade(label = "File", menu = file)
+        file.add_command(label = "Add", command = lambda: Add)
+        file.add_command(label = 'View', command = lambda: View)
+        file.add_separator()
+        file.add_command(label = 'Delete', command = lambda: Delete)
+
+        
+
+        Tk.config(self, menu=menubar)
+
+        def popupmsg(message):
+            pass
+
+        self.frames = {}
+
+        for F in (Add, View, Delete):
+            frame = F(container, self)
+            self.frames[F] = frame
+            frame.grid(row = 0, column = 0)
+
+        self.show_frame(Add)
+
+    def show_frame(self, name):
+        frame = self.frames[name]
+        frame.tkraise()
+
+class Add(Frame):
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent)
+        label = Label(self, text = 'Add Page')
+        label.pack(pady = 10, padx = 10)
+
+        button1 = Button(self, text = 'View Page', command = lambda: controller.show_frame(View))
+        button1.pack()
+
+        button1 = Button(self, text = 'Delete Page', command = lambda: controller.show_frame(Delete))
+        button1.pack()
+
+class View(Frame):
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent)
+        label = Label(self, text = 'View Page')
+        label.pack(pady = 10, padx = 10)
+
+        button1 = Button(self, text = 'Back to Home', command = lambda: controller.show_frame(Add))
+        button1.pack()
 
 
-        frame1 = Frame(window)
-        frame1.pack()
+class Delete(Frame):
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent)
+        label = Label(self, text = 'Delete Page')
+        label.pack(pady = 10, padx = 10)
 
-        label1 = Label(frame1, text = 'Email: ')
-        self.email = StringVar()
-        enter_email = Entry(frame1, textvariable = self.email)
-        label1.grid(row = 1, column = 1)
-        enter_email.grid(row = 1, column = 2)
+        button1 = Button(self, text = 'Back to Home', command = lambda: controller.show_frame(Add))
+        button1.pack()
 
-        frame2 = Frame(window)
-        frame2.pack()
-
-        label2 = Label(frame2, text='Color: ')
-        self.color = StringVar()
-        self.b1 = IntVar()
-        enter_color = Entry(frame2, textvariable = self.color)
-        add_btn = Button(frame2, text='Add', command=self.plus)
-        label2.grid(row = 1, column = 1)
-        enter_color.grid(row = 1, column = 2)
-        add_btn.grid(row = 1, column = 3)
-
-        frame3 = Frame(window)
-        frame3.pack()
-
-        view_button = Button(frame3, text = 'View', command = self.display_customer_data)
-        view_button.grid(row = 1, column = 1)
-
-        self.text = Text(window)
-        self.text.pack()
-        self.text.insert(END, '')
-
-
-
-        window.mainloop()
-
-    def add_customer(self):
-        customer_email = self.email.get()
-        return customer_email
-
-    def plus(self):
-        pass
-
-    def display_customer_data(self):
-        self.text.insert(END, f'{app.view_customer(self.add_customer())}')
-
-    def add_entry(self):
-        pass
-
-    def view_entry(self):
-        pass
-
-    def delete_entry(self):
-        pass
-            
-Front()
+if __name__ == '__main__':
+    app = MainWindow()
+    app.mainloop()

@@ -2,7 +2,7 @@ from peewee import *
 from collections import OrderedDict
 from datetime import datetime
 
-from Garment.gui_app import Front
+import gui_app
 
 db = SqliteDatabase('garment.db')
 
@@ -46,7 +46,7 @@ def menu_loop():
 def add_customer():
     '''Add Customer'''
     # customer_email = input('Enter customer email: ')
-    customer = Customer.create(email=Front().add_customer())
+    customer = Customer.create(email=gui_app.Front().add_customer())
     action = None
     while action != 'yes':
         customer_purchase = input('Enter products color: ').strip()
@@ -59,15 +59,11 @@ def view_customer(email=None):
     '''View customers'''
     if email:
         customer = Customer.get(email==email)
-        count = 1
+        count = 0
         for garment in customer.customer_details:
             time_stamp = garment.time_stamp.strftime('%A %B %d, %Y %I:%M%p')
-            print ('='*len(time_stamp))
-            print (time_stamp)
-            print ('='*len(time_stamp))
-            print (f'{count}: {garment.color}')
-            print ('='*len(time_stamp))
             count += 1
+            return (('='*len(time_stamp)) + '\n' + (time_stamp) + 'n' + ('='*len(time_stamp)) + '\n' + (f'{count}: {garment.color}') + '\n' + ('='*len(time_stamp)) + '\n')
 
 
 def delete_customer(email=None):

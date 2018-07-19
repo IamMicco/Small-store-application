@@ -38,7 +38,7 @@ class App:
         window.mainloop()
 
     def submit_view_user(self):
-        App().text.insert(END, f'{app.view_customer(self.email1.get())}')
+        self.text.insert(END, f'{app.view_customer(self.email1.get())}')
 
     def submit_delete_user(self):
         app.delete_customer(self.email1.get())
@@ -66,7 +66,8 @@ def create_user():
     phone = IntVar()
     entry4 = Entry(top, textvariable = phone).grid(row = 3, column = 1, sticky = W)
 
-    button1 = Button(top, text = 'submit', command = submit_new_user).grid(row = 4, columnspan = 2)
+    button1 = Button(top, text = 'submit', command = submit_new_user).grid(row = 4, column = 1, columnspan = 2, sticky = W)
+    button1.pack()
 
 
 

@@ -1,78 +1,111 @@
 from tkinter import *
+
 import app
 
 
-class MainWindow(Tk):
-    def __init__(self, *args, **kwargs):
-        Tk.__init__(self, *args, **kwargs)
-        self.title('Garment')
-        self.geometry("300x300")
+class App:
+    def __init__(self):
+        window = Tk()
+        window.title('Garment')
+
+        mainmenu = Menu(window)
+        window.config(menu = mainmenu)
+
+
+        file = Menu(mainmenu, tearoff = 0)
+        mainmenu.add_cascade(label = 'File', menu = file)
+        file.add_command(label = 'New', command = create_user)
         
-        container = Frame(self)
-        container.pack(side = "top", fill = "both", expand = True)
-        container.grid_rowconfigure(0, weight = 1)
-        container.grid_columnconfigure(0, weight = 1)
+        frame1 = Frame(window)
+        frame1.pack(padx = 10, pady = 5)
 
-        menubar = Menu(container)
-        file = Menu(menubar, tearoff = 0)
-        file.add_command(label = 'create user', command = lambda: popupmsg('Not supported yet'))
-        menubar.add_cascade(label = "File", menu = file)
-        file.add_command(label = "Add", command = lambda: Add)
-        file.add_command(label = 'View', command = lambda: View)
-        file.add_separator()
-        file.add_command(label = 'Delete', command = lambda: Delete)
+        label = Label(frame1, text = 'Email').grid(row = 1, column = 1)
+        self.email1 = StringVar()
+        entry = Entry(frame1, textvariable = self.email1).grid(row = 1, column = 2)
 
-        
+        frame2 = Frame(window)
+        frame2.pack()
 
-        Tk.config(self, menu=menubar)
-
-        def popupmsg(message):
-            pass
-
-        self.frames = {}
-
-        for F in (Add, View, Delete):
-            frame = F(container, self)
-            self.frames[F] = frame
-            frame.grid(row = 0, column = 0)
-
-        self.show_frame(Add)
-
-    def show_frame(self, name):
-        frame = self.frames[name]
-        frame.tkraise()
-
-class Add(Frame):
-    def __init__(self, parent, controller):
-        Frame.__init__(self, parent)
-        label = Label(self, text = 'Add Page')
-        label.pack(pady = 10, padx = 10)
-
-        button1 = Button(self, text = 'View Page', command = lambda: controller.show_frame(View))
-        button1.pack()
-
-        button1 = Button(self, text = 'Delete Page', command = lambda: controller.show_frame(Delete))
-        button1.pack()
-
-class View(Frame):
-    def __init__(self, parent, controller):
-        Frame.__init__(self, parent)
-        label = Label(self, text = 'View Page')
-        label.pack(pady = 10, padx = 10)
-
-        button1 = Button(self, text = 'Back to Home', command = lambda: controller.show_frame(Add))
-        button1.pack()
+        view_button = Button(frame2, text = 'VIEW', fg = 'blue', command = self.submit_view_user).grid(row = 1, column = 1, sticky = W)
+        delete_button = Button(frame2, text = 'delete', fg = 'red', command = self.submit_delete_user).grid(row = 1, column = 2, sticky = E)
 
 
-class Delete(Frame):
-    def __init__(self, parent, controller):
-        Frame.__init__(self, parent)
-        label = Label(self, text = 'Delete Page')
-        label.pack(pady = 10, padx = 10)
 
-        button1 = Button(self, text = 'Back to Home', command = lambda: controller.show_frame(Add))
-        button1.pack()
+        self.text = Text(window)
+        self.text.pack()
+        self.text.insert(END, "")
 
-if __name__ == '__main__':
-    app = MainWindow()
-    app.mainloop()
+        window.mainloop()
+
+    def submit_view_user(self):
+        App().text.insert(END, f'{app.view_customer(self.email1.get())}')
+
+    def submit_delete_user(self):
+        app.delete_customer(self.email1.get())
+
+
+
+
+def create_user():
+    top=Toplevel()
+    top.title("Create user")
+
+    first_name = Label(top, text ="Firstname", font=('Times', 15)).grid(row=0,column=0, sticky=W)
+    firstname = StringVar()
+    entry1 = Entry(top, textvariable = firstname).grid(row = 0, column = 1)
+
+    last_name = Label(top, text ="Lastname", font=('Times', 15)).grid(row=1,column=0, sticky=W)
+    lastname = StringVar()
+    entry2 = Entry(top, textvariable = lastname).grid(row = 1, column = 1)
+
+    email = Label(top, text ="Email", font=('Times', 15)).grid(row=2,column=0, sticky=W)
+    email_ = StringVar()
+    entry3 = Entry(top, textvariable = email_).grid(row = 2, column = 1)
+
+    phone_number = Label(top, text = 'Phone number', font = ('Times', 15)).grid(row = 3, column = 0, sticky = W)
+    phone = IntVar()
+    entry4 = Entry(top, textvariable = phone).grid(row = 3, column = 1, sticky = W)
+
+    button1 = Button(top, text = 'submit', command = submit_new_user).grid(row = 4, columnspan = 2)
+
+
+
+    def submit_new_user():
+        name = firstname.get() + ' ' + lastname.get()
+        app.add_customer(name, email_.get(), phone.get())
+
+def view_customer():
+    view = Toplevel()
+    view.title("View user")
+
+    email = Label(view, text ="Email", font=('Times', 15))
+    email.grid(row=2,column=0, sticky=W)
+    email_ = StringVar()
+    entry2 = Entry(view, textvariable = email_).grid(row = 2, column = 1)
+
+    submit = Button(view, text = 'submit', command = submit_view_user)
+
+    def submit_view_user():
+        App().text.insert(END, f'{app.view_customer(email_.get())}')
+
+
+def delete_customer():
+    view = Toplevel()
+    view.title("Delete user")
+
+    email = Label(view, text ="Email", font=('Times', 15))
+    email.grid(row=2,column=0, sticky=W)
+    email_ = StringVar()
+    entry2 = Entry(view, textvariable = email_).grid(row = 2, column = 1)
+
+    submit = Button(view, text = 'submit', command = submit_delete_user)
+
+    def submit_delete_user():
+        app.delete_customer(email_.get())
+
+    
+
+
+
+
+App()

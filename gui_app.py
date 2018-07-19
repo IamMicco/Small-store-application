@@ -107,7 +107,7 @@ def delete_customer():
 
         label = Label(confirm_delete, text = 'Are you sure you want to delete user?').grid(row = 1, colummn = 1, sticky = W)
         delete_button = Button(confirm_delete, text = 'Delete', fg = 'red', command = conf_delete).grid(row = 1, colummn = 1, sticky = W)
-        cancel_delete = Button(confirm_delete, text = 'cancel', command = confirm_delete.destroy).grid(row = 1, column = 2, sticky = W)
+        cancel_button = Button(confirm_delete, text = 'cancel', command = confirm_delete.destroy).grid(row = 1, column = 2, sticky = W)
 
         def conf_delete():
             app.delete_customer(email_.get())

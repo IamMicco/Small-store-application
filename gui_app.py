@@ -2,10 +2,16 @@ from tkinter import *
 
 import app
 
+# Note to self: Currently trying to make buttons on toplevels
 
 class Application:
     
+    '''
+    This is the home venue of the application
+    '''
+    
     def __init__(self, master):
+        
         self.email1 = StringVar()
 
         self.master = master       
@@ -22,8 +28,8 @@ class Application:
         file.add_command(label = 'Exit', command = root.quit)
 
         background = Menu(mainmenu, tearoff = 0)
-        mainmenu.add_cascade(label = 'Background', menu = background)
-        background.add_command(label = 'Color', command = self.bgcolor)
+        mainmenu.add_cascade(label = 'Settings', menu = background)
+        background.add_command(label = 'Color', command = self.txtcolor)
         
         frame1 = Frame(self.master)
         frame1.pack(padx = 10, pady = 5)
@@ -43,7 +49,7 @@ class Application:
         self.text.pack()
         self.text.insert(END, "")
 
-    def bgcolor(self):
+    def txtcolor(self):
         pass
 
 
@@ -63,6 +69,7 @@ class Application:
 class Create:
         
     def __init__(self, master):
+        
         self.firstname = StringVar()
         self.lastname = StringVar()
         self.email_ = StringVar()

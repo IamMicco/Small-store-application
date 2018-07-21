@@ -34,14 +34,18 @@ class Application:
         frame1 = Frame(self.master)
         frame1.pack(padx = 10, pady = 5)
 
-        label = Label(frame1, text = 'Email').grid(row = 1, column = 1)
-        entry = Entry(frame1, textvariable = self.email1).grid(row = 1, column = 2)
+        label = Label(frame1, text = 'Email')
+        entry = Entry(frame1, textvariable = self.email1)
+        label.pack()
+        entry.pack()
 
         frame2 = Frame(self.master)
         frame2.pack()
 
-        view_button = Button(frame2, text = 'VIEW', fg = 'blue', command = self.submit_view_user).grid(row = 1, column = 1, sticky = W)
-        delete_button = Button(frame2, text = 'delete', fg = 'red', command = self.delete_user).grid(row = 1, column = 2, sticky = E)
+        view_button = Button(frame2, text = 'VIEW', fg = 'blue', command = self.submit_view_user)
+        delete_button = Button(frame2, text = 'delete', fg = 'red', command = self.delete_user)
+        view_button.pack()
+        delete_button.pack()
 
 
 
@@ -78,20 +82,29 @@ class Create:
 
         self.master = master
         self.master.title('Create User')
+        # self.master.geometry('300 X 300')
 
-        self.first_name = Label(self.master, text ="Firstname").grid(row=0,column=0, sticky=W)
-        self.entry1 = Entry(self.master, textvariable = self.firstname).grid(row = 0, column = 1)
+        self.first_name = Label(self.master, text ="Firstname")
+        self.entry1 = Entry(self.master, textvariable = self.firstname)
+        self.first_name.pack()
+        self.entry1.pack()
 
-        self.last_name = Label(self.master, text ="Lastname").grid(row=1,column=0, sticky=W)
-        self.entry2 = Entry(self.master, textvariable = self.lastname).grid(row = 1, column = 1)
+        self.last_name = Label(self.master, text ="Lastname")
+        self.entry2 = Entry(self.master, textvariable = self.lastname)
+        self.last_name.pack()
+        self.entry2.pack()
 
-        self.email = Label(self.master, text ="Email").grid(row=2,column=0, sticky=W)
-        self.entry3 = Entry(self.master, textvariable = self.email_).grid(row = 2, column = 1)
+        self.email = Label(self.master, text ="Email")
+        self.entry3 = Entry(self.master, textvariable = self.email_)
+        self.email.pack()
+        self.entry3.pack()
 
-        self.phone_number = Label(self.master, text = 'Phone number').grid(row = 3, column = 0, sticky = W)
-        self.entry4 = Entry(self.master, textvariable = self.phone).grid(row = 3, column = 1, sticky = W)
+        self.phone_number = Label(self.master, text = 'Phone number')
+        self.entry4 = Entry(self.master, textvariable = self.phone)
+        self.phone_number.pack()
+        self.entry4.pack()
 
-        self.button1 = Button(self.master, text = 'submit', command = submit_new_user).grid(row = 6, column = 3, columnspan = 2, sticky = W)
+        self.button1 = Button(self.master, text = 'submit', command = submit_new_user)
         self.button1.pack()
 
 
@@ -108,18 +121,24 @@ class Delete:
         self.master = master
         self.master.title('Delete User')
 
-        self.email = Label(self.master, text ="Email").grid(row=2,column=0, sticky=W)
-        self.entry2 = Entry(self.master, textvariable = self.email_).grid(row = 2, column = 1)
+        self.email = Label(self.master, text ="Email")
+        self.entry2 = Entry(self.master, textvariable = self.email_)
+        self.email.pack()
+        self.entry2.pack()
 
         self.submit = Button(self.master, text = 'submit', command = self.submit_delete_user)
+        self.submit.pack()
 
     def submit_delete_user(self):
         confirm_delete = Toplevel()
         confirm_delete.title("Confirm Delete user")
 
-        label = Label(confirm_delete, text = 'Are you sure you want to delete user?').grid(row = 1, colummn = 1, sticky = W)
-        delete_button = Button(confirm_delete, text = 'Delete', fg = 'red', command = conf_delete).grid(row = 1, colummn = 1, sticky = W)
-        cancel_button = Button(confirm_delete, text = 'cancel', command = confirm_delete.destroy).grid(row = 1, column = 2, sticky = W)
+        label = Label(confirm_delete, text = 'Are you sure you want to delete user?')
+        delete_button = Button(confirm_delete, text = 'Delete', fg = 'red', command = conf_delete)
+        cancel_button = Button(confirm_delete, text = 'cancel', command = confirm_delete.destroy)
+        label.pack()
+        delete_button.pack()
+        cancel_button.pack()
 
         def conf_delete():
             app.delete_customer(self.email_.get())

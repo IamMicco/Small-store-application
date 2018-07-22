@@ -26,8 +26,8 @@ class Garment(BaseModel):
 
 def initialize():
     db.connect()
-    db.create_tables([Customer], safe=True)
-    db.create_tables([Garment], safe=True)
+    db.create_tables([Customer, Garment], safe=True)
+
 
 def menu_loop():
     choice = None
@@ -61,19 +61,24 @@ def current_customer(email=None):
     '''Add to current Customer'''
 
     if email != None:
-        customer = Customer.get(email = email)
+        customer = Customer.get(Customer.email==email)
         action = None
+
         while action != 'yes':
             customer_purchase = input('Enter products color: ').strip()
             Garment.create(customer=customer, color=customer_purchase)
             action = input('Are you done? yes/no').lower().strip()
 
+def find_customer(email = None):
+    
+    customer = Customer.get(Customer.email==email)
+    return customer
 
 
 def view_customer(email=None):
     '''View customers'''
     if email:
-        customer = Customer.get(email==email)
+        customer = Customer.get(Customer.email==email)
         count = 0
         result = []
         for garment in customer.customer_details:
@@ -82,8 +87,7 @@ def view_customer(email=None):
             result.append(('='*len(time_stamp)) + '\n' + (time_stamp) + '\n' + ('='*len(time_stamp)) + '\n' + (f'{count}: {garment.color}') + '\n' + ('='*len(time_stamp)) + '\n')
         return result
 
-
-
+    
 def delete_customer(email=None):
     '''Delete customer'''
     customer = Customer.get(Customer.email==email)
@@ -102,3 +106,4 @@ menu = OrderedDict([
 if __name__ == '__main__':
     initialize()
     menu_loop()
+    # print (find_customer('abc@gmail.com'))

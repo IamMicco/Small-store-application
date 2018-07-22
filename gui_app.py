@@ -1,8 +1,8 @@
 from tkinter import *
 
-import app
+from app import *
 
-# Note to self: Currently trying to make buttons on toplevels
+# Note to self: Currently trying to make buttons on toplevels windows
 
 class Application:
     
@@ -12,7 +12,7 @@ class Application:
     
     def __init__(self, master):
         
-        self.email1 = StringVar()
+        self.email = StringVar()
 
         self.master = master       
         self.master.title('Garment')
@@ -35,7 +35,7 @@ class Application:
         frame1.pack(padx = 10, pady = 5)
 
         label = Label(frame1, text = 'Email')
-        entry = Entry(frame1, textvariable = self.email1)
+        entry = Entry(frame1, textvariable = self.email)
         label.pack()
         entry.pack()
 
@@ -47,11 +47,16 @@ class Application:
         view_button.pack()
         delete_button.pack()
 
+        frame3 = Frame(self.master)
+        frame3.pack()
+
+        self.label2 = Label(frame3, text = None)
+        self.label2.pack()
 
 
-        self.text = Text(self.master)
-        self.text.pack()
-        self.text.insert(END, "")
+        # self.text = Text(self.master)
+        # self.text.pack()
+        # self.text.insert(END, "")
 
     def txtcolor(self):
         pass
@@ -59,7 +64,10 @@ class Application:
 
 
     def submit_view_user(self):
-        self.text.insert(END, f'{app.view_customer(self.email1.get())}')
+        # print (f'{view_customer(self.email.get())}')
+        # self.text.insert(END, f'{view_customer(self.email.get())}')
+
+        self.label2['text'] = view_customer(self.email.get())
 
     def create_user(self):
         top = Toplevel(self.master)
@@ -67,7 +75,7 @@ class Application:
 
     def delete_user(self):
         top = Toplevel(self.master)
-        data = Delete(top)
+        data = Delete_data(top)
 
 
 class Create:
@@ -82,12 +90,12 @@ class Create:
 
         self.master = master
         self.master.title('Create User')
-        # self.master.geometry('300 X 300')
+        # self.master.geometry("170X200+30+30")
 
         self.first_name = Label(self.master, text ="Firstname")
         self.entry1 = Entry(self.master, textvariable = self.firstname)
-        self.first_name.pack()
-        self.entry1.pack()
+        self.first_name.pack(side = LEFT)
+        self.entry1.pack(side = LEFT)
 
         self.last_name = Label(self.master, text ="Lastname")
         self.entry2 = Entry(self.master, textvariable = self.lastname)
@@ -110,10 +118,10 @@ class Create:
 
         def submit_new_user():
             name = self.firstname.get() + ' ' + self.lastname.get()
-            app.add_customer(name, self.email_.get(), self.phone.get())
+            add_customer(name, self.email_.get(), self.phone.get())
 
 
-class Delete:
+class Delete_data:
     
     def __init__(self, master):
         self.email_ = StringVar()
@@ -141,7 +149,7 @@ class Delete:
         cancel_button.pack()
 
         def conf_delete():
-            app.delete_customer(self.email_.get())
+            delete_customer(self.email_.get())
     
 
 

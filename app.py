@@ -69,6 +69,7 @@ def current_customer(email=None):
             action = input('Are you done? yes/no').lower().strip()
 
 
+
 def view_customer(email=None):
     '''View customers'''
     if email:
@@ -80,6 +81,7 @@ def view_customer(email=None):
             count += 1
             result.append(('='*len(time_stamp)) + '\n' + (time_stamp) + '\n' + ('='*len(time_stamp)) + '\n' + (f'{count}: {garment.color}') + '\n' + ('='*len(time_stamp)) + '\n')
         return result
+
 
 
 def delete_customer(email=None):

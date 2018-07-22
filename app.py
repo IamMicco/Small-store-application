@@ -2,7 +2,7 @@ from peewee import *
 from collections import OrderedDict
 from datetime import datetime
 
-import gui_app
+
 
 db = SqliteDatabase('garment.db')
 
@@ -49,9 +49,7 @@ def menu_loop():
 
 def add_customer(name = None, email = None, phone = None):
     '''Add Customer'''
-    #name = input('name:' )
-    #email = input('email: ')
-    #phone = int(input('phone: '))
+
     customer = Customer.create(name = name, email=email, phone_number = phone)
     action = None
     while action != 'yes':
@@ -62,7 +60,6 @@ def add_customer(name = None, email = None, phone = None):
 def current_customer(email=None):
     '''Add to current Customer'''
 
-    #email = input('Email: ')
     if email != None:
         customer = Customer.get(email = email)
         action = None
@@ -73,16 +70,18 @@ def current_customer(email=None):
 
 
 
-
 def view_customer(email=None):
     '''View customers'''
     if email:
         customer = Customer.get(email==email)
         count = 0
+        result = []
         for garment in customer.customer_details:
             time_stamp = garment.time_stamp.strftime('%A %B %d, %Y %I:%M%p')
             count += 1
-            return (('='*len(time_stamp)) + '\n' + (time_stamp) + '\n' + ('='*len(time_stamp)) + '\n' + (f'{count}: {garment.color}') + '\n' + ('='*len(time_stamp)) + '\n')
+            result.append(('='*len(time_stamp)) + '\n' + (time_stamp) + '\n' + ('='*len(time_stamp)) + '\n' + (f'{count}: {garment.color}') + '\n' + ('='*len(time_stamp)) + '\n')
+        return result
+
 
 
 def delete_customer(email=None):
@@ -103,6 +102,3 @@ menu = OrderedDict([
 if __name__ == '__main__':
     initialize()
     menu_loop()
-
-
-#add_customer('James','abc@gmail.com',1312323)

@@ -24,6 +24,7 @@ class Application:
         mainmenu.add_cascade(label = 'File', menu = file)
         file.add_command(label = 'New', command = self.create_user)
         file.add_separator()
+        file.add_command(label = 'Delete', command = self.delete_user)
         file.add_command(label = 'Exit', command = root.quit)
 
         background = Menu(mainmenu, tearoff = 0)
@@ -42,9 +43,7 @@ class Application:
         frame2.pack()
 
         view_button = Button(frame2, text = 'VIEW', fg = 'blue', command = self.submit_view_user)
-        delete_button = Button(frame2, text = 'delete', fg = 'red', command = self.delete_user)
         view_button.pack()
-        delete_button.pack()
 
         frame3 = Frame(self.master)
         frame3.pack()
@@ -116,38 +115,47 @@ class Create:
     def submit_new_user(self):
         name = self.firstname.get() + ' ' + self.lastname.get()
         app.add_customer(name, self.email_.get(), self.phone.get())
-        self.master.quit()
+        root.quit()
 
 
 class Delete_data:
     
     def __init__(self, master):
-        self.email_ = StringVar()
+        self.email = StringVar()
     
         self.master = master
         self.master.title('Delete User')
 
-        self.email = Label(self.master, text ="Email")
-        self.entry2 = Entry(self.master, textvariable = self.email_)
-        self.email.pack()
-        self.entry2.pack()
+        self.label = Label(self.master, text ="Email")
+        self.entry = Entry(self.master, textvariable = self.email)
+        self.label.pack()
+        self.entry.pack()
 
-        self.submit = Button(self.master, text = 'submit', command = self.submit_delete_user)
-        self.submit.pack()
+        self.delete = Button(self.master, text = 'Delete', command = self.confirm_delete_user)
+        self.exit = Button(self.master, text = 'Exit', command = root.quit)
+        self.delete.pack()
 
-    def submit_delete_user(self):
-        confirm_delete = Toplevel()
-        confirm_delete.title("Confirm Delete user")
+    def confirm_delete_user(self):
+        top = Toplevel(self.master)
+        data = Confirm(top, self.email)
 
-        label = Label(confirm_delete, text = 'Are you sure you want to delete user?')
-        delete_button = Button(confirm_delete, text = 'Delete', fg = 'red', command = conf_delete)
-        cancel_button = Button(confirm_delete, text = 'cancel', command = confirm_delete.destroy)
-        label.pack()
-        delete_button.pack()
-        cancel_button.pack()
+class Confirm:
+    def __init__(self, master, email):
+        self.email = email
+        
+        self.master = master
+        self.master.title('Confirm Deletion')
 
-        def conf_delete():
-            app.delete_customer(self.email_.get())
+        self.label = Label(self.master, text = 'Are you sure you want to delete customer?')
+        self.delete_button = Button(self.master, text = 'Delete', fg = 'red', command = self.conf_delete)
+        self.cancel_button = Button(self.master, text = 'Cancel', fg = 'grey', command = self.master.quit)
+        self.label.pack()
+        self.delete_button.pack()
+        self.cancel_button.pack()
+        
+
+    def conf_delete(self):
+        app.delete_customer(self.email.get())
     
 
 

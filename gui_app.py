@@ -1,8 +1,7 @@
 from tkinter import *
 
-from app import *
+import app
 
-# Note to self: Currently trying to make buttons on toplevels windows
 
 class Application:
     
@@ -54,9 +53,9 @@ class Application:
         self.label2.pack()
 
 
-        # self.text = Text(self.master)
-        # self.text.pack()
-        # self.text.insert(END, "")
+        self.text = Text(self.master)
+        self.text.pack()
+        self.text.insert(END, "")
 
     def txtcolor(self):
         pass
@@ -64,10 +63,9 @@ class Application:
 
 
     def submit_view_user(self):
-        # print (f'{view_customer(self.email.get())}')
-        # self.text.insert(END, f'{view_customer(self.email.get())}')
+        for item in app.view_customer(self.email.get()):
+            self.text.insert(END, item)
 
-        self.label2['text'] = view_customer(self.email.get())
 
     def create_user(self):
         top = Toplevel(self.master)
@@ -90,12 +88,11 @@ class Create:
 
         self.master = master
         self.master.title('Create User')
-        # self.master.geometry("170X200+30+30")
 
         self.first_name = Label(self.master, text ="Firstname")
         self.entry1 = Entry(self.master, textvariable = self.firstname)
-        self.first_name.pack(side = LEFT)
-        self.entry1.pack(side = LEFT)
+        self.first_name.pack()
+        self.entry1.pack()
 
         self.last_name = Label(self.master, text ="Lastname")
         self.entry2 = Entry(self.master, textvariable = self.lastname)
@@ -112,13 +109,14 @@ class Create:
         self.phone_number.pack()
         self.entry4.pack()
 
-        self.button1 = Button(self.master, text = 'submit', command = submit_new_user)
+        self.button1 = Button(self.master, text = 'submit', command = self.submit_new_user)
         self.button1.pack()
 
 
-        def submit_new_user():
-            name = self.firstname.get() + ' ' + self.lastname.get()
-            add_customer(name, self.email_.get(), self.phone.get())
+    def submit_new_user(self):
+        name = self.firstname.get() + ' ' + self.lastname.get()
+        app.add_customer(name, self.email_.get(), self.phone.get())
+        self.master.quit()
 
 
 class Delete_data:
@@ -149,7 +147,7 @@ class Delete_data:
         cancel_button.pack()
 
         def conf_delete():
-            delete_customer(self.email_.get())
+            app.delete_customer(self.email_.get())
     
 
 

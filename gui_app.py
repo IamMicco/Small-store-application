@@ -26,7 +26,7 @@ class Application:
         file.add_command(label = 'Current', command = self.update_current_user)
         file.add_separator()
         file.add_command(label = 'Delete', command = self.delete_user)
-        file.add_command(label = 'Exit', command = self.master.quit)
+        file.add_command(label = 'Exit', command = self.master.destroy)
 
         background = Menu(mainmenu, tearoff = 0)
         mainmenu.add_cascade(label = 'Settings', menu = background)
@@ -64,8 +64,12 @@ class Application:
 
     def submit_view_user(self):
         self.text.delete(1.0,END)
-        for item in app.view_customer(self.email.get()):
-            self.text.insert(END, item)
+        try:
+            for item in app.view_customer(self.email.get()):
+                self.text.insert(END, item)
+        except ValueError:
+            top = Toplevel(self.master)
+            data = Popup_message(top)
 
 
     def create_user(self):
@@ -79,6 +83,17 @@ class Application:
     def delete_user(self):
         top = Toplevel(self.master)
         data = Delete_data(top)
+
+class Popup_message:
+    
+    def __init__(self, master):
+        self.master = master
+        self.master.title('Popup message!')
+
+        self.label = Label(self.master, text = 'Data not in database, please check spelling')
+        self.button = Button(self.master, text = 'Ok',command =self.master.destroy)
+        self.label.pack()
+        self.button.pack()
 
 
 class Create:
@@ -202,7 +217,11 @@ class Update:
         self.button.pack()
 
     def find_user(self):
-        return app.find_customer(self.email_.get())
+        try:
+            return app.find_customer(self.email_.get())
+        except ValueError:
+            notice = Toplevel(self.master)
+            stop = Pop_up(notice)
 
     def update_information(self):
         top = Toplevel(self.master)
@@ -262,7 +281,18 @@ class Update_info:
     def add_color6(self):
         app.add_customer_items(self.customer, self.color6)
 
-        
+
+
+class Pop_up:
+    
+    def __init__(self, master):
+        self.master = master
+        self.master.title('Popup message!')
+
+        self.label = Label(self.master, text = 'Data not in database, please check spelling')
+        self.button = Button(self.master, text = 'Ok',command = Update.find_user)
+        self.label.pack()
+        self.button.pack()
 
 
 class Delete_data:

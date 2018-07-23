@@ -46,22 +46,31 @@ def current_customer(customer = None, color = None):
   
 
 def find_customer(email = None):
-    
-    customer = Customer.get(Customer.email==email)
-    return customer
+    try:
+
+        customer = Customer.get(Customer.email==email)
+
+    except Exception:
+        return ValueError
+    else:
+        return customer
 
 
 def view_customer(email=None):
     '''View customers'''
     if email:
-        customer = Customer.get(Customer.email==email)
-        count = 0
-        result = []
-        for garment in customer.customer_details:
-            time_stamp = garment.time_stamp.strftime('%A %B %d, %Y %I:%M%p')
-            count += 1
-            result.append(('='*len(time_stamp)) + '\n' + (time_stamp) + '\n' + ('='*len(time_stamp)) + '\n' + (f'{count}: {garment.color}') + '\n' + ('='*len(time_stamp)) + '\n')
-        return result
+        try:
+            customer = Customer.get(Customer.email==email)
+        except Exception:
+            raise ValueError
+        else:
+            count = 0
+            result = []
+            for garment in customer.customer_details:
+                time_stamp = garment.time_stamp.strftime('%A %B %d, %Y %I:%M%p')
+                count += 1
+                result.append(('='*len(time_stamp)) + '\n' + (time_stamp) + '\n' + ('='*len(time_stamp)) + '\n' + (f'{count}: {garment.color}') + '\n' + ('='*len(time_stamp)) + '\n')
+            return result
 
     
 def delete_customer(email=None):

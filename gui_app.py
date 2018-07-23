@@ -6,7 +6,7 @@ import app
 class Application:
     
     '''
-    This is the home venue of the application
+    This is the home venue for the application
     '''
     
     def __init__(self, master):

@@ -1,5 +1,4 @@
 from peewee import *
-from collections import OrderedDict
 from datetime import datetime
 
 

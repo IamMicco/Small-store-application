@@ -26,7 +26,7 @@ def initialize():
     db.connect()
     db.create_tables([Customer, Garment], safe=True)
 
-
+# Need to add error handling incase email already exists
 def add_customer(name = None, email = None, phone = None):
     '''Add Customer'''
 
@@ -45,14 +45,13 @@ def current_customer(customer = None, color = None):
   
 
 def find_customer(email = None):
-    try:
-
-        customer = Customer.get(Customer.email==email)
-
-    except Exception:
-        return ValueError
-    else:
-        return customer
+    if email:
+        try:
+            customer = Customer.get(Customer.email==email)
+        except Exception:
+            raise ValueError
+        else:
+            return customer
 
 
 def view_customer(email=None):

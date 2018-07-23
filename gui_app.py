@@ -1,8 +1,6 @@
 from tkinter import *
 
 import app
-# from error import Error
-# from app import Customer
 
 
 class Application:
@@ -128,7 +126,7 @@ class Create:
         name = self.firstname.get() + ' ' + self.lastname.get()
         app.add_customer(name, self.email_.get(), self.phone.get())
         top = Toplevel(self.master)
-        data = Create_user_items(top, self.email_)
+        data = Create_user_items(top, self.email_.get())
         root.quit()
 
 class Create_user_items:
@@ -142,6 +140,7 @@ class Create_user_items:
         self.master.title('Add Items')
 
         self.email = email
+        self.customer = app.find_customer(self.email)
 
         self.color1 = 'Red'
         self.color2 = 'Green'
@@ -164,22 +163,22 @@ class Create_user_items:
         self.item_button6.pack()
 
     def add_color1(self):
-        app.add_customer_items(app.find_customer(self.email), self.color1)
+        app.add_customer_items(self.customer, self.color1)
 
     def add_color2(self):
-        app.add_customer_items(app.find_customer(self.email), self.color2)
+        app.add_customer_items(self.customer, self.color2)
 
     def add_color3(self):
-        app.add_customer_items(app.find_customer(self.email), self.color3)
+        app.add_customer_items(self.customer, self.color3)
 
     def add_color4(self):
-        app.add_customer_items(app.find_customer(self.email), self.color4)
+        app.add_customer_items(self.customer, self.color4)
 
     def add_color5(self):
-        app.add_customer_items(app.find_customer(self.email), self.color5)
+        app.add_customer_items(self.customer, self.color5)
 
     def add_color6(self):
-        app.add_customer_items(app.find_customer(self.email), self.color6)
+        app.add_customer_items(self.customer, self.color6)
 
 
 
@@ -203,7 +202,7 @@ class Update:
         self.button.pack()
 
     def find_user(self):
-        return app.find_customer(self.email_)
+        return app.find_customer(self.email_.get())
 
     def update_information(self):
         top = Toplevel(self.master)
@@ -231,6 +230,7 @@ class Update_info:
         self.color5 = 'Yellow'
         self.color6 = 'White'
 
+
         self.item_button1 = Button(self.master, text = 'Item1', command = self.add_color1)
         self.item_button2 = Button(self.master, text = 'Item2', command = self.add_color2)
         self.item_button3 = Button(self.master, text = 'Item3', command = self.add_color3)
@@ -245,22 +245,22 @@ class Update_info:
         self.item_button6.pack()
 
     def add_color1(self):
-        app.add_customer_items(app.find_customer(self.email), self.color1)
+        app.add_customer_items(self.customer, self.color1)
 
     def add_color2(self):
-        app.add_customer_items(app.find_customer(self.email), self.color2)
+        app.add_customer_items(self.customer, self.color2)
 
     def add_color3(self):
-        app.add_customer_items(app.find_customer(self.email), self.color3)
+        app.add_customer_items(self.customer, self.color3)
 
     def add_color4(self):
-        app.add_customer_items(app.find_customer(self.email), self.color4)
+        app.add_customer_items(self.customer, self.color4)
 
     def add_color5(self):
-        app.add_customer_items(app.find_customer(self.email), self.color5)
+        app.add_customer_items(self.customer, self.color5)
 
     def add_color6(self):
-        app.add_customer_items(app.find_customer(self.email), self.color6)
+        app.add_customer_items(self.customer, self.color6)
 
         
 

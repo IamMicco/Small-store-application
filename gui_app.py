@@ -84,6 +84,10 @@ class Application:
 
 
 class Create:
+    
+    '''
+    Creates a new customer profile and adds it to the database
+    '''
         
     def __init__(self, master):
         
@@ -128,6 +132,10 @@ class Create:
         root.quit()
 
 class Create_user_items:
+    
+    '''
+    Adds the items bought to the created customer profile
+    '''
     
     def __init__(self, master, email):
         self.master = master
@@ -177,6 +185,10 @@ class Create_user_items:
 
 class Update:
     
+    '''
+    Finds specified Customerand returns the object from the database
+    '''
+    
     def __init__(self, master):
         self.email_ = StringVar()
 
@@ -199,6 +211,10 @@ class Update:
         data = Update_info(top, user, self.email_)
 
 class Update_info:
+    
+    '''
+    With selected Customer objects, this class adds the new item to the selected customer profile
+    '''
     
     def __init__(self, master, customer, email):
         self.customer = customer
@@ -251,6 +267,10 @@ class Update_info:
 
 class Delete_data:
     
+    '''
+    This finds specific customer and deletes his/her profile
+    '''
+    
     def __init__(self, master):
         self.email = StringVar()
     
@@ -272,6 +292,11 @@ class Delete_data:
 
 
 class Confirm:
+    
+    '''
+    This asks the Customer if he/she is sure of the profile deletion
+    '''
+    
     def __init__(self, master, email):
         self.email = email
         

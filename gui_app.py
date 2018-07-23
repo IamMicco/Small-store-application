@@ -170,12 +170,14 @@ class Create_user_items:
         self.item_button4 = Button(self.master, text = 'Item4', command = self.add_color4)
         self.item_button5 = Button(self.master, text = 'Item5', command = self.add_color5)
         self.item_button6 = Button(self.master, text = 'Item6', command = self.add_color6)
+        self.item_button7 = Button(self.master, text = 'Ok', command = self.master.destroy)
         self.item_button1.pack()
         self.item_button2.pack()
         self.item_button3.pack()
         self.item_button4.pack()
         self.item_button5.pack()
         self.item_button6.pack()
+        self.item_button7.pack()
 
     def add_color1(self):
         app.add_customer_items(self.customer, self.color1)
@@ -217,16 +219,19 @@ class Update:
         self.button.pack()
 
     def find_user(self):
+        return app.find_customer(self.email_.get())
+            
+
+    def update_information(self):
         try:
-            return app.find_customer(self.email_.get())
+            user = self.find_user()
         except ValueError:
             notice = Toplevel(self.master)
             stop = Pop_up(notice)
+        else:
+            top = Toplevel(self.master)
+            data = Update_info(top, user, self.email_)
 
-    def update_information(self):
-        top = Toplevel(self.master)
-        user = self.find_user()
-        data = Update_info(top, user, self.email_)
 
 class Update_info:
     
@@ -256,12 +261,14 @@ class Update_info:
         self.item_button4 = Button(self.master, text = 'Item4', command = self.add_color4)
         self.item_button5 = Button(self.master, text = 'Item5', command = self.add_color5)
         self.item_button6 = Button(self.master, text = 'Item6', command = self.add_color6)
+        self.item_button7 = Button(self.master, text = 'Ok', command = self.master.destroy)
         self.item_button1.pack()
         self.item_button2.pack()
         self.item_button3.pack()
         self.item_button4.pack()
         self.item_button5.pack()
         self.item_button6.pack()
+        self.item_button7.pack()
 
     def add_color1(self):
         app.add_customer_items(self.customer, self.color1)
@@ -289,8 +296,8 @@ class Pop_up:
         self.master = master
         self.master.title('Popup message!')
 
-        self.label = Label(self.master, text = 'Data not in database, please check spelling')
-        self.button = Button(self.master, text = 'Ok',command = Update.find_user)
+        self.label = Label(self.master, text = 'Customer profile not in database, please check spelling')
+        self.button = Button(self.master, text = 'Ok',command = self.master.destroy)
         self.label.pack()
         self.button.pack()
 
@@ -313,7 +320,7 @@ class Delete_data:
         self.entry.pack()
 
         self.delete = Button(self.master, text = 'Delete', command = self.confirm_delete_user)
-        self.exit = Button(self.master, text = 'Exit', command = root.quit)
+        self.exit = Button(self.master, text = 'Exit', command = self.master.destroy)
         self.delete.pack()
 
     def confirm_delete_user(self):
@@ -335,7 +342,7 @@ class Confirm:
 
         self.label = Label(self.master, text = 'Are you sure you want to delete customer?')
         self.delete_button = Button(self.master, text = 'Delete', fg = 'red', command = self.conf_delete)
-        self.cancel_button = Button(self.master, text = 'Cancel', fg = 'grey', command = self.master.quit)
+        self.cancel_button = Button(self.master, text = 'Cancel', fg = 'grey', command = self.master.destroy)
         self.label.pack()
         self.delete_button.pack()
         self.cancel_button.pack()
@@ -343,6 +350,7 @@ class Confirm:
 
     def conf_delete(self):
         app.delete_customer(self.email.get())
+        self.master.destroy()
     
 
 

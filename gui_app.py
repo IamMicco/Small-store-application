@@ -16,6 +16,9 @@ class Application:
         self.master = master       
         self.master.title('Garment')
 
+        icon = PhotoImage(file = 'icons.png')
+        self.master.call('wm', 'iconphoto', self.master._w, icon)
+
         mainmenu = Menu(self.master)
         self.master.config(menu = mainmenu)
 
@@ -35,10 +38,8 @@ class Application:
         frame1 = Frame(self.master)
         frame1.pack(padx = 10, pady = 5)
 
-        label = Label(frame1, text = 'Email')
-        entry = Entry(frame1, textvariable = self.email)
-        label.pack()
-        entry.pack()
+        label = Label(frame1, text = 'Email').grid(row = 1, column = 1)
+        entry = Entry(frame1, textvariable = self.email).grid(row = 1, column = 2)
 
         frame2 = Frame(self.master)
         frame2.pack()
@@ -70,6 +71,9 @@ class Application:
         except ValueError:
             top = Toplevel(self.master)
             data = Popup_message(top)
+        except TypeError:
+            top = Toplevel(self.master)
+            data = Popup_Empty(top)
 
 
     def create_user(self):
@@ -90,7 +94,25 @@ class Popup_message:
         self.master = master
         self.master.title('Popup message!')
 
+        icon = PhotoImage(file = 'icons.png')
+        self.master.tk.call('wm', 'iconphoto', self.master._w, icon)
+
         self.label = Label(self.master, text = 'Data not in database, please check spelling')
+        self.button = Button(self.master, text = 'Ok',command =self.master.destroy)
+        self.label.pack()
+        self.button.pack()
+
+
+class Popup_Empty:
+    
+    def __init__(self, master):
+        self.master = master
+        self.master.title('Popup message!')
+
+        icon = PhotoImage(file = 'icons.png')
+        self.master.call('wm', 'iconphoto', self.master._w, icon)
+
+        self.label = Label(self.master, text = 'Entry box cannot be left empty')
         self.button = Button(self.master, text = 'Ok',command =self.master.destroy)
         self.label.pack()
         self.button.pack()
@@ -113,28 +135,22 @@ class Create:
         self.master = master
         self.master.title('Create User')
 
-        self.first_name = Label(self.master, text ="Firstname")
-        self.entry1 = Entry(self.master, textvariable = self.firstname)
-        self.first_name.pack()
-        self.entry1.pack()
+        icon = PhotoImage(file = 'icons.png')
+        self.master.tk.call('wm', 'iconphoto', self.master._w, icon)
 
-        self.last_name = Label(self.master, text ="Lastname")
-        self.entry2 = Entry(self.master, textvariable = self.lastname)
-        self.last_name.pack()
-        self.entry2.pack()
+        self.first_name = Label(self.master, text ="Firstname").grid(row = 1, column = 1, sticky = W)
+        self.entry1 = Entry(self.master, textvariable = self.firstname).grid(row = 1, column = 2, sticky = W)
 
-        self.email = Label(self.master, text ="Email")
-        self.entry3 = Entry(self.master, textvariable = self.email_)
-        self.email.pack()
-        self.entry3.pack()
+        self.last_name = Label(self.master, text ="Lastname").grid(row = 2, column = 1, sticky = W)
+        self.entry2 = Entry(self.master, textvariable = self.lastname).grid(row = 2, column = 2, sticky = W)
 
-        self.phone_number = Label(self.master, text = 'Phone number')
-        self.entry4 = Entry(self.master, textvariable = self.phone)
-        self.phone_number.pack()
-        self.entry4.pack()
+        self.email = Label(self.master, text ="Email").grid(row = 3, column = 1, sticky = W)
+        self.entry3 = Entry(self.master, textvariable = self.email_).grid(row = 3, column = 2, sticky = W)
 
-        self.button1 = Button(self.master, text = 'submit', command = self.submit_new_user)
-        self.button1.pack()
+        self.phone_number = Label(self.master, text = 'Phone number').grid(row = 4, column = 1, sticky = W)
+        self.entry4 = Entry(self.master, textvariable = self.phone).grid(row = 4, column = 2, sticky = W)
+
+        self.button1 = Button(self.master, text = 'submit', command = self.submit_new_user).grid(row = 5)
 
 
     def submit_new_user(self):
@@ -142,7 +158,6 @@ class Create:
         app.add_customer(name, self.email_.get(), self.phone.get())
         top = Toplevel(self.master)
         data = Create_user_items(top, self.email_.get())
-        root.quit()
 
 class Create_user_items:
     
@@ -154,6 +169,9 @@ class Create_user_items:
         self.master = master
         self.master.title('Add Items')
 
+        icon = PhotoImage(file = 'icons.png')
+        self.master.tk.call('wm', 'iconphoto', self.master._w, icon)
+
         self.email = email
         self.customer = app.find_customer(self.email)
 
@@ -164,20 +182,13 @@ class Create_user_items:
         self.color5 = 'Yellow'
         self.color6 = 'White'
 
-        self.item_button1 = Button(self.master, text = 'Item1', command = self.add_color1)
-        self.item_button2 = Button(self.master, text = 'Item2', command = self.add_color2)
-        self.item_button3 = Button(self.master, text = 'Item3', command = self.add_color3)
-        self.item_button4 = Button(self.master, text = 'Item4', command = self.add_color4)
-        self.item_button5 = Button(self.master, text = 'Item5', command = self.add_color5)
-        self.item_button6 = Button(self.master, text = 'Item6', command = self.add_color6)
-        self.item_button7 = Button(self.master, text = 'Ok', command = self.master.destroy)
-        self.item_button1.pack()
-        self.item_button2.pack()
-        self.item_button3.pack()
-        self.item_button4.pack()
-        self.item_button5.pack()
-        self.item_button6.pack()
-        self.item_button7.pack()
+        self.item_button1 = Button(self.master, text = 'Item1', command = self.add_color1).grid(row = 1, column = 1, sticky = W)
+        self.item_button2 = Button(self.master, text = 'Item2', command = self.add_color2).grid(row = 1, column = 3, sticky = W)
+        self.item_button3 = Button(self.master, text = 'Item3', command = self.add_color3).grid(row = 1, column = 5, sticky = W)
+        self.item_button4 = Button(self.master, text = 'Item4', command = self.add_color4).grid(row = 2, column = 1, sticky = W)
+        self.item_button5 = Button(self.master, text = 'Item5', command = self.add_color5).grid(row = 2, column = 3, sticky = W)
+        self.item_button6 = Button(self.master, text = 'Item6', command = self.add_color6).grid(row = 2, column = 5, sticky = W)
+        self.item_button7 = Button(self.master, text = 'Ok', command = self.master.destroy).grid(row = 3, column = 3)
 
     def add_color1(self):
         app.add_customer_items(self.customer, self.color1)
@@ -211,16 +222,15 @@ class Update:
         self.master = master
         self.master.title('Find Customer')
 
-        self.email = Label(self.master, text ="Email")
-        self.entry = Entry(self.master, textvariable = self.email_)
-        self.button = Button(self.master, text = 'Find User', command = self.update_information)
-        self.email.pack()
-        self.entry.pack()
-        self.button.pack()
+        icon = PhotoImage(file = 'icons.png')
+        self.master.tk.call('wm', 'iconphoto', self.master._w, icon)
+
+        self.email = Label(self.master, text ="Email").grid(row = 1, column = 1, sticky = W)
+        self.entry = Entry(self.master, textvariable = self.email_).grid(row = 1, column = 2, sticky = W)
+        self.button = Button(self.master, text = 'Find User', command = self.update_information).grid(row = 2, column = 2)
 
     def find_user(self):
         return app.find_customer(self.email_.get())
-            
 
     def update_information(self):
         try:
@@ -245,6 +255,9 @@ class Update_info:
         self.master = master
         self.master.title('Update Customer Items')
 
+        icon = PhotoImage(file = 'icons.png')
+        self.master.tk.call('wm', 'iconphoto', self.master._w, icon)
+
         self.email = email
 
         self.color1 = 'Red'
@@ -254,21 +267,13 @@ class Update_info:
         self.color5 = 'Yellow'
         self.color6 = 'White'
 
-
-        self.item_button1 = Button(self.master, text = 'Item1', command = self.add_color1)
-        self.item_button2 = Button(self.master, text = 'Item2', command = self.add_color2)
-        self.item_button3 = Button(self.master, text = 'Item3', command = self.add_color3)
-        self.item_button4 = Button(self.master, text = 'Item4', command = self.add_color4)
-        self.item_button5 = Button(self.master, text = 'Item5', command = self.add_color5)
-        self.item_button6 = Button(self.master, text = 'Item6', command = self.add_color6)
-        self.item_button7 = Button(self.master, text = 'Ok', command = self.master.destroy)
-        self.item_button1.pack()
-        self.item_button2.pack()
-        self.item_button3.pack()
-        self.item_button4.pack()
-        self.item_button5.pack()
-        self.item_button6.pack()
-        self.item_button7.pack()
+        self.item_button1 = Button(self.master, text = 'Item1', command = self.add_color1).grid(row = 1, column =1, sticky = W)
+        self.item_button2 = Button(self.master, text = 'Item2', command = self.add_color2).grid(row = 1, column =3, sticky = W)
+        self.item_button3 = Button(self.master, text = 'Item3', command = self.add_color3).grid(row = 1, column =5, sticky = W)
+        self.item_button4 = Button(self.master, text = 'Item4', command = self.add_color4).grid(row = 2, column =1, sticky = W)
+        self.item_button5 = Button(self.master, text = 'Item5', command = self.add_color5).grid(row = 2, column =3, sticky = W)
+        self.item_button6 = Button(self.master, text = 'Item6', command = self.add_color6).grid(row = 2, column =5, sticky = W)
+        self.item_button7 = Button(self.master, text = 'Ok', command = self.master.destroy).grid(row = 3, column =3)
 
     def add_color1(self):
         app.add_customer_items(self.customer, self.color1)
@@ -296,6 +301,9 @@ class Pop_up:
         self.master = master
         self.master.title('Popup message!')
 
+        icon = PhotoImage(file = 'icons.png')
+        self.master.tk.call('wm', 'iconphoto', self.master._w, icon)
+
         self.label = Label(self.master, text = 'Customer profile not in database, please check spelling')
         self.button = Button(self.master, text = 'Ok',command = self.master.destroy)
         self.label.pack()
@@ -313,6 +321,9 @@ class Delete_data:
     
         self.master = master
         self.master.title('Delete User')
+
+        icon = PhotoImage(file = 'icons.png')
+        self.master.tk.call('wm', 'iconphoto', self.master._w, icon)
 
         self.label = Label(self.master, text ="Email")
         self.entry = Entry(self.master, textvariable = self.email)
@@ -340,12 +351,12 @@ class Confirm:
         self.master = master
         self.master.title('Confirm Deletion')
 
-        self.label = Label(self.master, text = 'Are you sure you want to delete customer?')
-        self.delete_button = Button(self.master, text = 'Delete', fg = 'red', command = self.conf_delete)
-        self.cancel_button = Button(self.master, text = 'Cancel', fg = 'grey', command = self.master.destroy)
-        self.label.pack()
-        self.delete_button.pack()
-        self.cancel_button.pack()
+        icon = PhotoImage(file = 'icons.png')
+        self.master.tk.call('wm', 'iconphoto', self.master._w, icon)
+
+        self.label = Label(self.master, text = 'Are you sure you want to delete customer?').grid(row = 1)
+        self.delete_button = Button(self.master, text = 'Delete', fg = 'red', command = self.conf_delete).grid(row = 2, column = 1)
+        self.cancel_button = Button(self.master, text = 'Cancel', fg = 'grey', command = self.master.destroy).grid(row = 2, column = 2)
         
 
     def conf_delete(self):

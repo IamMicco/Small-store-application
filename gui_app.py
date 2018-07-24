@@ -14,7 +14,7 @@ class Application:
         self.email = StringVar()
 
         self.master = master       
-        self.master.title('Garment')
+        self.master.title('Retail App')
 
         icon = PhotoImage(file = 'icons.png')
         self.master.call('wm', 'iconphoto', self.master._w, icon)

@@ -154,8 +154,10 @@ class Create:
 
 
     def submit_new_user(self):
-        name = self.firstname.get() + ' ' + self.lastname.get()
         try:
+            if self.firstname.get() == None or self.lastname.get() == None:
+                raise NameError
+            name = self.firstname.get() + ' ' + self.lastname.get()
             app.add_customer(name, self.email_.get(), self.phone.get())
         except ValueError:
             top = Toplevel(self.master)
@@ -163,6 +165,9 @@ class Create:
         except AttributeError:
             top = Toplevel(self.master)
             data = Email_already_Exists(top)
+        except NameError:
+            top = Toplevel(self.master)
+            data = Popup_Empty(top)
         else:
             top = Toplevel(self.master)
             data = Create_user_items(top, self.email_.get())
@@ -397,8 +402,13 @@ class Confirm:
         
 
     def conf_delete(self):
-        app.delete_customer(self.email.get())
-        self.master.destroy()
+        try:
+            app.delete_customer(self.email.get())
+        except ValueError:
+            top = Toplevel(self.master)
+            data = Pop_up(top)
+        else:
+            self.master.destroy()
     
 
 

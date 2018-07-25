@@ -73,8 +73,11 @@ def view_customer(email=None):
     
 def delete_customer(email=None):
     '''Delete customer'''
-    customer = Customer.get(Customer.email==email)
-    if customer:
+    try:
+        customer = Customer.get(Customer.email==email)
+    except Exception:
+        raise ValueError
+    else:
         customer.delete_instance()
         
 

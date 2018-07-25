@@ -2,7 +2,7 @@ from peewee import *
 from datetime import datetime
 
 
-db = SqliteDatabase('garment.db')
+db = SqliteDatabase('data.db')
 
 class BaseModel(Model):
     class Meta:
@@ -15,7 +15,7 @@ class Customer(BaseModel):
     phone_number = IntegerField(null = False, unique = True)
 
 
-class Garment(BaseModel):
+class Product(BaseModel):
     id = PrimaryKeyField(null=False)
     color = CharField(max_length=20)
     time_stamp = DateTimeField(default=datetime.now)
@@ -24,25 +24,25 @@ class Garment(BaseModel):
 
 def initialize():
     db.connect()
-    db.create_tables([Customer, Garment], safe=True)
+    db.create_tables([Customer, Product], safe=True)
 
-# Need to add error handling incase email already exists
+
 def add_customer(name = None, email = None, phone = None):
     '''Add Customer'''
-
-    customer = Customer.create(name = name, email=email, phone_number = phone)
+    customer_email = Customer.get(Customer.email == email)
+    customer_phone = Customer.get(Customer.phone == email)
+    if customer_email:
+        raise ValueError
+    elif customer_phone:
+        raise AttributeError
+    else:     
+        customer = Customer.create(name = name, email=email, phone_number = phone)
    
 
 def add_customer_items(customer = None, color = None):
     if customer != None and color != None:
-        Garment.create(customer = customer, color = color)
+        Product.create(customer = customer, color = color)
 
-def current_customer(customer = None, color = None):
-    '''Add to current Customer'''
-
-    if customer != None and color != None:
-        Garment.create(customer = customer, color = color)
-  
 
 def find_customer(email = None):
     if email:

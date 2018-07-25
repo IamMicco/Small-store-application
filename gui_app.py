@@ -110,7 +110,7 @@ class Popup_Empty:
         self.master.title('Popup message!')
 
         icon = PhotoImage(file = 'icons.png')
-        self.master.call('wm', 'iconphoto', self.master._w, icon)
+        self.master.tk.call('wm', 'iconphoto', self.master._w, icon)
 
         self.label = Label(self.master, text = 'Entry box cannot be left empty')
         self.button = Button(self.master, text = 'Ok',command =self.master.destroy)
@@ -130,7 +130,7 @@ class Create:
         self.lastname = StringVar()
         self.email_ = StringVar()
         self.phone = IntVar()
-            
+
 
         self.master = master
         self.master.title('Create User')
@@ -155,9 +155,46 @@ class Create:
 
     def submit_new_user(self):
         name = self.firstname.get() + ' ' + self.lastname.get()
-        app.add_customer(name, self.email_.get(), self.phone.get())
-        top = Toplevel(self.master)
-        data = Create_user_items(top, self.email_.get())
+        try:
+            app.add_customer(name, self.email_.get(), self.phone.get())
+        except ValueError:
+            top = Toplevel(self.master)
+            data = Phone_already_Exists(top)
+        except AttributeError:
+            top = Toplevel(self.master)
+            data = Email_already_Exists(top)
+        else:
+            top = Toplevel(self.master)
+            data = Create_user_items(top, self.email_.get())
+
+class Phone_already_Exists:
+    
+    def __init__(self, master):
+        self.master = master
+        self.master.title('Phone number Error')
+
+        icon = PhotoImage(file = 'icons.png')
+        self.master.tk.call('wm', 'iconphoto', self.master._w, icon)
+
+        self.label = Label(self.master, text = 'Phone number is already being used, please enter a different one!')
+        self.button = Button(self.master, text = 'Ok',command =self.master.destroy)
+        self.label.pack()
+        self.button.pack()
+
+class Email_already_Exists:
+    
+    def __init__(self, master):
+        self.master = master
+        self.master.title('Email Error message!')
+
+        icon = PhotoImage(file = 'icons.png')
+        self.master.tk.call('wm', 'iconphoto', self.master._w, icon)
+
+        self.label = Label(self.master, text = 'Email is already being used, please enter a different one!')
+        self.button = Button(self.master, text = 'Ok',command =self.master.destroy)
+        self.label.pack()
+        self.button.pack()
+
 
 class Create_user_items:
     

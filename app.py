@@ -29,14 +29,7 @@ def initialize():
 
 def add_customer(name = None, email = None, phone = None):
     '''Add Customer'''
-    customer_email = Customer.get(Customer.email == email)
-    customer_phone = Customer.get(Customer.phone == email)
-    if customer_email:
-        raise ValueError
-    elif customer_phone:
-        raise AttributeError
-    else:     
-        customer = Customer.create(name = name, email=email, phone_number = phone)
+    customer = Customer.create(name = name, email=email, phone_number = phone)
    
 
 def add_customer_items(customer = None, color = None):
@@ -63,11 +56,11 @@ def view_customer(email=None):
             raise ValueError
         else:
             count = 0
-            result = []
-            for garment in customer.customer_details:
-                time_stamp = garment.time_stamp.strftime('%A %B %d, %Y %I:%M%p')
+            result = [customer.name]
+            for product in customer.customer_details:
+                time_stamp = product.time_stamp.strftime('%A %B %d, %Y %I:%M%p')
                 count += 1
-                result.append(('='*len(time_stamp)) + '\n' + (time_stamp) + '\n' + ('='*len(time_stamp)) + '\n' + (f'{count}: {garment.color}') + '\n' + ('='*len(time_stamp)) + '\n')
+                result.append(('\n' + '='*len(time_stamp)) + '\n' + (time_stamp) + '\n' + ('='*len(time_stamp)) + '\n' + (f'{count}: {product.color}') + '\n' + ('='*len(time_stamp)) + '\n')
             return result
 
     
@@ -79,6 +72,8 @@ def delete_customer(email=None):
         raise ValueError
     else:
         customer.delete_instance()
+        for product in customer.customer_details:
+            product.delete_instance()
         
 
 
